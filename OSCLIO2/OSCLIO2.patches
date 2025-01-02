@@ -1,0 +1,135 @@
+{
+  "id": "8718707ed6fd91d046a994cb6410f6aec0ca",
+  "revision": "3217bfa21ce761124b42a713766dd1105bec",
+  "version": {
+    "dev": 0,
+    "patch": 0,
+    "prod": 179
+  },
+  "creatorIdentifier": "com.facebook.arstudio.skylight",
+  "creatorPlatform": "windows",
+  "creatorFileVersion": {
+    "dev": 0,
+    "patch": 0,
+    "prod": 179
+  },
+  "visual_programming": {
+    "connections": [
+      {
+        "modelName": "patch_connection_model",
+        "identifier": "patch_connection_model:551-bfa21ce7-6112-4b42-a713-766dd1105bec",
+        "fromPatch": "shader_code_patch_model:9518-707ed6fd-91d0-46a9-94cb-6410f6aec0ca",
+        "fromPort": "16777216",
+        "toPatch": "template_patch_model:409-bfa21ce7-6112-4b42-a713-766dd1105bec",
+        "toPort": "20"
+      },
+      {
+        "modelName": "patch_connection_model",
+        "identifier": "patch_connection_model:9520-707ed6fd-91d0-46a9-94cb-6410f6aec0ca",
+        "fromPatch": "producer_patch_model:9124-707ed6fd-91d0-46a9-94cb-6410f6aec0ca",
+        "fromPort": "0",
+        "toPatch": "shader_code_patch_model:9518-707ed6fd-91d0-46a9-94cb-6410f6aec0ca",
+        "toPort": "256"
+      }
+    ],
+    "graphs": [
+      {
+        "modelName": "patch_graph",
+        "identifier": "patch_graph:8806-707ed6fd-91d0-46a9-94cb-6410f6aec0ca",
+        "subpatches": [
+          "producer_patch_model:9124-707ed6fd-91d0-46a9-94cb-6410f6aec0ca",
+          "shader_code_patch_model:9518-707ed6fd-91d0-46a9-94cb-6410f6aec0ca",
+          "template_patch_model:409-bfa21ce7-6112-4b42-a713-766dd1105bec"
+        ]
+      }
+    ],
+    "patches": [
+      {
+        "modelName": "producer_patch_model",
+        "name": "cameraTexture0",
+        "identifier": "producer_patch_model:9124-707ed6fd-91d0-46a9-94cb-6410f6aec0ca",
+        "object": "cameraTexture:9018-707ed6fd-91d0-46a9-94cb-6410f6aec0ca",
+        "position": [
+          -700,
+          20
+        ]
+      },
+      {
+        "modelName": "shader_code_patch_model",
+        "name": "shaderCodeAsset - mainImage",
+        "identifier": "shader_code_patch_model:9518-707ed6fd-91d0-46a9-94cb-6410f6aec0ca",
+        "object": "shader_code_asset_model:9232-707ed6fd-91d0-46a9-94cb-6410f6aec0ca",
+        "position": [
+          -508,
+          -100
+        ],
+        "shaderInterface": "shader_interface_model:9372-707ed6fd-91d0-46a9-94cb-6410f6aec0ca",
+        "values": [
+          {
+            "port": "512",
+            "value": {
+              "t": "vec2",
+              "v": [
+                20,
+                0
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "modelName": "template_patch_model",
+        "name": "Shader Render Pass",
+        "identifier": "template_patch_model:409-bfa21ce7-6112-4b42-a713-766dd1105bec",
+        "deleteUsAlong": [
+          "render_pass_texture_model:411-bfa21ce7-6112-4b42-a713-766dd1105bec"
+        ],
+        "position": [
+          -484,
+          68
+        ],
+        "templateId": "builtin.renderPass.processor",
+        "values": [
+          {
+            "port": "0",
+            "value": {
+              "t": "vec2",
+              "v": [
+                1,
+                1
+              ]
+            }
+          },
+          {
+            "port": "30",
+            "value": {
+              "t": "int",
+              "v": 0
+            }
+          },
+          {
+            "port": "40",
+            "value": {
+              "t": "int",
+              "v": 0
+            }
+          },
+          {
+            "port": "50",
+            "value": {
+              "t": "int",
+              "v": 2
+            }
+          },
+          {
+            "port": "80",
+            "value": {
+              "t": "string",
+              "v": "render_pass_texture_model:411-bfa21ce7-6112-4b42-a713-766dd1105bec"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

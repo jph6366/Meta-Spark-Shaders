@@ -1,0 +1,46 @@
+// variant of https://shadertoy.com/view/7t3yzN
+
+vec4 texelFetch(std::Texture2d tex, ivec2 U, float) {
+  vec2 uv = std::getVertexTexCoord();
+  vec2 rtSize = std::getRenderTargetSize();
+  vec2 texelUV = floor(fragment(uv) * rtSize) / rtSize;
+  return tex.sample(texelUV);
+}
+
+
+#define S(v)            smoothstep(2., 0., abs(v)/fwidth(v) )
+
+
+vec4 texelFetcher(std::Texture2d myTex, std::Texture2d tex, vec2 U) {
+  return myTex.sample(U) * ( texelFetch(tex, ivec2(9,2),0.0).x > 0. ? 1. + vec4(.07,.03,0,0) + vec4(.6,.2,.2,0)*U.x + vec4(.18,.18,.18,0)*U.y : vec4(1) );
+}
+
+vec4 mainImage( std::Texture2d myTex, vec2 freq )
+{
+  vec2 fragCoord = fragment(floor(std::getRenderTargetSize() * std::getVertexTexCoord()));
+  vec2 iResolution = std::getRenderTargetSize();
+  vec2 u = fragment(floor(std::getRenderTargetSize() * std::getVertexTexCoord()));
+  vec4 O;
+  vec2 R = iResolution.xy,
+        U = u/R,
+        G = R/freq , 
+        I = round (U*G)/G,
+        V = 2.*U-1.; V *= V;
+  
+    G = G*(U-I)+.5;
+
+    O-=O;
+  
+    vec4 P = texelFetcher(myTex, myTex, vec2(U.x,I.y) );  // horizontal RGB profiles
+    // vec4 P = myTex.sample(vec2(U.x,I.y)) * ( texelFetch(back, ivec2(9,2),0.0).x > 0. ? 1. + vec4(.07,.03,0,0) + vec4(.6,.2,.2,0)*V.x + vec4(.18,.18,.18,0)*V.y : vec4(1) )
+    // O = mix( O, vec4(1), S( G.y - length(P.rgb)/sqrt(3.) ) );
+  
+    // P = T( vec2(I.x,U.y) );       // vertical RGB profiles
+    // P = vec4 P = myTex.sample(vec2(I.x,U.y)) * ( texelFetch(back, ivec2(9,2),0.0).x > 0. ? 1. + vec4(.07,.03,0,0) + vec4(.6,.2,.2,0)*V.x + vec4(.18,.18,.18,0)*V.y : vec4(1) )
+    P = texelFetcher(myTex, myTex, vec2(I.x,U.y) );  // horizontal RGB profiles
+    O = mix( O, vec4(1), S( G.x - length(P.rgb)/sqrt(3.) ) );
+    
+    O = sqrt(O);                  // to sRGB
+
+    return O;
+}
