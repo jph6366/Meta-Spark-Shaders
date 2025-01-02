@@ -1,0 +1,36 @@
+#define CURVATURE 4.2
+
+#define BLUR .021
+
+#define CA_AMT 1.024
+
+vec4 mainImage(std::Texture2d myTex){
+
+    vec2 iResolution = std::getRenderTargetSize();
+    vec2 fragCoord = fragment(floor(std::getRenderTargetSize() * std::getVertexTexCoord()));
+    vec4 fragColor = vec4(fragCoord, 0.0, 1.0);
+    vec2 uv=fragCoord/iResolution.xy;
+    
+
+    //curving
+    vec2 crtUV=uv*2.-1.;
+    vec2 offset=crtUV.yx/CURVATURE;
+    crtUV+=crtUV*offset*offset;
+    crtUV=crtUV*.5+.5;
+    
+    vec2 edge=smoothstep(0., BLUR, crtUV)*(1.-smoothstep(1.-BLUR, 1., crtUV));
+    
+    //chromatic abberation
+    fragColor.rgb=vec3(
+        myTex.sample((crtUV-.5)*CA_AMT+.5).r,
+        myTex.sample(crtUV).g,
+        myTex.sample((crtUV-.5)/CA_AMT+.5).b
+    )*edge.x*edge.y;
+    
+    //lines
+    if(mod(fragCoord.y, 2.)<1.) fragColor.rgb*=.7;
+    else if(mod(fragCoord.x, 3.)<1.) fragColor.rgb*=.7;
+    else fragColor*=1.2;
+
+    return fragColor;
+}
